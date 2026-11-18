@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Record Room | Cafe, Hauz Khas Village (concept demo)</title>
+<meta name="description" content="A record-shop cafe in Hauz Khas Village. The menu is a tracklist: pick your side, play a track and reserve a table on WhatsApp. A concept demo, not the official site.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Space+Mono:wght@400;700&family=Karla:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Brief: The Record Room, cafe in Hauz Khas Village. Vinyl, coffee, food.
+   Idea: the menu is an album. A spinning record in the hero; Side A (day) and Side B (night) switch the tracklist, and tapping a track lowers the needle and "plays" it (the track title scrolls, the record spins faster).
+   Photos: labelled Unsplash stock, placeholders for the cafe's own. */
+:root{--bg:#17110c;--fg:#f1e6d2;--am:#e9a23b;--red:#c9402c;--card:#241a12;--mute:#a8987f;--line:rgba(241,230,210,.14);--disp:'Abril Fatface',Georgia,serif;--mono:'Space Mono',monospace;--sans:'Karla',system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}a{color:inherit}button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+:focus-visible{outline:2px solid var(--am);outline-offset:3px}
+.wrap{width:min(1160px,100% - 40px);margin:0 auto}
+h1,h2,h3{font-family:var(--disp);font-weight:400;line-height:.95}
+h2{font-size:clamp(2.4rem,5.4vw,4.4rem)}
+.lab{font-family:var(--mono);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--am)}
+.btn{display:inline-flex;align-items:center;gap:.6em;padding:.95em 1.6em;background:var(--am);color:#1a1008;font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;text-decoration:none;border-radius:4px;transition:transform .3s,background .3s}
+.btn:hover{transform:translateY(-2px);background:#fff}.btn.o{background:none;color:var(--fg);border:1px solid var(--line)}
+.rv{opacity:0;transform:translateY(24px);transition:opacity 1s var(--ease),transform 1s var(--ease)}.rv.in{opacity:1;transform:none}
+nav{position:fixed;inset:0 0 auto;z-index:50;padding:14px 0;background:rgba(23,17,12,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}nav .wrap{display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:var(--disp);font-size:1.4rem;text-decoration:none}.logo i{color:var(--am);font-style:normal}
+nav ul{display:flex;gap:26px;list-style:none;font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase}nav ul a{text-decoration:none;opacity:.7}nav ul a:hover{opacity:1;color:var(--am)}
+.hero{padding:120px 0 70px;position:relative;overflow:hidden}.hero .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;min-height:calc(100svh - 190px)}
+.hero h1{font-size:clamp(3.6rem,10vw,9rem);letter-spacing:-.02em}.hero h1 em{color:var(--am);font-style:normal;display:block}
+.hero p.s{max-width:440px;color:var(--mute);margin:20px 0 26px}
+.deck{position:relative;aspect-ratio:1;max-width:520px;margin:auto;width:100%}
+.disc{position:absolute;inset:4%;border-radius:50%;background:repeating-radial-gradient(circle,#0b0805 0 2px,#17110c 2px 4px);box-shadow:0 40px 60px -20px rgba(0,0,0,.7),inset 0 0 0 6px #080604;animation:spin 6s linear infinite;animation-play-state:running}
+.deck.fast .disc{animation-duration:1.6s}
+.disc::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 20deg,transparent 0 20%,rgba(255,255,255,.1) 25%,transparent 32% 70%,rgba(255,255,255,.08) 75%,transparent 82%)}
+.lbl{position:absolute;inset:33%;border-radius:50%;overflow:hidden;background:var(--red);display:grid;place-items:center;text-align:center;font-family:var(--mono);font-size:clamp(.5rem,1.3vw,.7rem);letter-spacing:.14em;text-transform:uppercase;color:#fff;box-shadow:inset 0 0 0 4px rgba(0,0,0,.18)}
+.lbl img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;mix-blend-mode:multiply}.lbl span{position:relative;line-height:1.5}.lbl::after{content:"";position:absolute;width:7%;aspect-ratio:1;border-radius:50%;background:var(--bg)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.arm{position:absolute;right:-4%;top:2%;width:46%;height:60%;transform-origin:88% 10%;transform:rotate(-8deg);transition:transform 1.2s var(--ease)}
+.deck.fast .arm{transform:rotate(14deg)}.arm svg{width:100%;height:100%;overflow:visible}
+.np{margin-top:26px;font-family:var(--mono);font-size:.78rem;border:1px solid var(--line);border-radius:6px;padding:10px 14px;display:flex;align-items:center;gap:12px;background:var(--card);max-width:520px;margin-inline:auto;overflow:hidden}
+.np b{color:var(--am);flex:none}.np span{white-space:nowrap;display:inline-block}.np .mqq{overflow:hidden;flex:1}.np .mqq span{animation:mq 12s linear infinite;padding-left:100%}
+@keyframes mq{to{transform:translateX(-100%)}}
+section{padding:100px 0}
+.side{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:24px 0 34px}.side button{padding:.8em 1.6em;font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;transition:.3s}.side button.on{background:var(--am);color:#1a1008}
+.menu{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start}
+.menu img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:8px;position:sticky;top:100px}
+.tr{display:grid;grid-template-columns:34px 1fr auto;gap:14px;align-items:center;padding:16px 8px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .3s;border-radius:6px;width:100%;text-align:left}
+.tr:hover{background:var(--card)}.tr.on{background:var(--card);box-shadow:inset 3px 0 0 var(--am)}
+.tr .n{font-family:var(--mono);color:var(--mute);font-size:.8rem}.tr.on .n{color:var(--am)}.tr h3{font-family:var(--sans);font-weight:600;font-size:1.1rem;line-height:1.2}.tr p{color:var(--mute);font-size:.84rem}.tr .pr{font-family:var(--mono);font-size:.9rem}
+.res{background:var(--card);border-block:1px solid var(--line)}
+.rg{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.form{display:grid;gap:18px}.form label{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);display:block;margin-bottom:8px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}.chips button{padding:.5em 1.1em;border:1px solid var(--line);border-radius:4px;font-size:.85rem;transition:.3s}.chips button.on{background:var(--am);color:#1a1008;border-color:var(--am)}
+.form input{width:100%;background:none;border:1px solid var(--line);border-radius:4px;padding:.8em 1em;color:var(--fg);font:inherit}
+.gal{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:34px}.gal img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;filter:sepia(.18) saturate(.95)}
+footer{padding:30px 0 90px;font-family:var(--mono);font-size:.7rem;color:var(--mute);text-align:center}
+.sticky{display:none}
+@media(max-width:860px){nav ul{display:none}.hero .wrap,.menu,.rg{grid-template-columns:1fr;gap:30px}.menu img{position:static;aspect-ratio:16/10}.gal{grid-template-columns:1fr 1fr}.gal img:last-child{display:none}section{padding:72px 0}.deck{max-width:380px}
+.sticky{display:flex;position:fixed;inset:auto 0 0;z-index:60;padding:10px 16px;background:var(--bg);border-top:1px solid var(--line)}.sticky .btn{flex:1;justify-content:center}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><a class="logo" href="#">The Record <i>Room</i></a><ul><li><a href="#menu">Tracklist</a></li><li><a href="#room">The room</a></li><li><a href="#reserve">Reserve</a></li></ul><a class="btn" href="#reserve" style="padding:.7em 1.2em">Reserve</a></div></nav>
+
+<header class="hero"><div class="wrap"><div><p class="lab">Cafe · Vinyl · Hauz Khas Village</p><h1>Drop the<em>needle.</em></h1><p class="s">Coffee, plates and a wall of records. The menu is a tracklist. Pick a side, play a track and book your table on WhatsApp.</p><a class="btn" href="#menu">Play the menu</a> <a class="btn o" href="#reserve">Reserve a table</a></div>
+<div><div class="deck" id="deck"><div class="disc"><div class="lbl"><img src="img/sign.jpg" alt=""><span>The Record Room<br>Side A</span></div></div>
+<div class="arm"><svg viewBox="0 0 100 160"><circle cx="88" cy="14" r="12" fill="#3a2d20"/><path d="M88 14L30 128" stroke="#cfc3ae" stroke-width="5" stroke-linecap="round"/><rect x="18" y="124" width="22" height="30" rx="3" transform="rotate(30 29 139)" fill="#e9a23b"/></svg></div></div>
+<div class="np"><b>NOW PLAYING</b><div class="mqq"><span id="np">Tap any track in the menu</span></div></div></div></div></header>
+
+<section id="menu"><div class="wrap"><p class="lab rv">The tracklist</p><h2 class="rv">Two sides, <span style="color:var(--am)">no skips.</span></h2>
+<div class="side"><button class="on" data-s="a">Side A · Day</button><button data-s="b">Side B · Night</button></div>
+<div class="menu"><img id="mi" src="img/shelves.jpg" alt=""><div id="tl"></div></div>
+<p style="color:var(--mute);font-size:.78rem;margin-top:24px">Dishes and prices are sample content for this concept. The cafe's real menu goes here.</p></div></section>
+
+<section class="res" id="room"><div class="wrap"><p class="lab rv">The room</p><h2 class="rv">Crate-dig. <span style="color:var(--am)">Stay a while.</span></h2>
+<div class="gal rv"><img src="img/shop.jpg" alt="Record shop cafe interior" loading="lazy"><img src="img/vinyl.jpg" alt="Vinyl and posters" loading="lazy"><img src="img/window.jpg" alt="Window seat" loading="lazy"></div>
+<p style="color:var(--mute);font-size:.75rem;margin-top:12px">Stock photos (Unsplash contributors), placeholders for the cafe's own.</p></div></section>
+
+<section id="reserve"><div class="wrap rg"><div><p class="lab">Reserve</p><h2>Save your <span style="color:var(--am)">seat.</span></h2><p style="color:var(--mute);margin-top:18px;max-width:420px">Choose a time and group size. It opens on WhatsApp and the team confirms your table.</p><p style="margin-top:22px;font-size:.92rem">Call <a href="tel:08799772212">087997 72212</a><br><span style="color:var(--mute)">Hauz Khas Village, New Delhi. Add real address and hours.</span></p></div>
+<div class="form"><div><label>When</label><div class="chips" id="cw"></div></div><div><label>Guests</label><div class="chips" id="cg"></div></div><div><label>Name</label><input id="nm" placeholder="Your name" autocomplete="name"></div><a class="btn" id="rs" href="#" style="justify-content:center">Request on WhatsApp</a></div></div></section>
+<footer>Concept demo by Kavimir for The Record Room. Not the official site. Photos: Unsplash contributors.</footer>
+<div class="sticky"><a class="btn" href="#reserve">Reserve a table</a></div>
+<script>
+const T={a:{img:'img/shelves.jpg',i:[['Flat white','Single-origin, silky',220],['Cold brew on ice','Slow-steeped, 16 hours',260],['Avocado toast','Sourdough, chilli, seeds',380],['Egg & cheese melt','Grilled sandwich',340],['Banoffee slice','Toffee, banana, cream',290]]},
+b:{img:'img/vinyl.jpg',i:[['Smoked old fashioned','Orange, rosemary',520],['Loaded nachos','Jalapeno, cheese, salsa',420],['Wood-fired pizza','Margherita or pepperoni',560],['Chicken wings','Hot honey glaze',460],['Affogato','Espresso over vanilla',250]]}};
+let side='a',cur=-1;
+const L=document.getElementById('tl'),D=document.getElementById('deck');
+function draw(){const d=T[side];document.getElementById('mi').src=d.img;L.innerHTML=d.i.map((x,i)=>`<button class="tr ${i==cur?'on':''}" data-i="${i}"><span class="n">${String(i+1).padStart(2,'0')}</span><div><h3>${x[0]}</h3><p>${x[1]}</p></div><span class="pr">${x[2]}</span></button>`).join('')}
+L.onclick=e=>{const t=e.target.closest('.tr');if(!t)return;cur=+t.dataset.i;const x=T[side].i[cur];draw();D.classList.add('fast');document.getElementById('np').textContent=`Side ${side.toUpperCase()} · Track ${cur+1} · ${x[0]} · ${x[1]} · Rs ${x[2]}   ♪   `;clearTimeout(window.__t);window.__t=setTimeout(()=>D.classList.remove('fast'),6000)};
+document.querySelectorAll('.side button').forEach(b=>b.onclick=()=>{side=b.dataset.s;cur=-1;document.querySelectorAll('.side button').forEach(x=>x.classList.toggle('on',x==b));document.querySelector('.lbl span').innerHTML='The Record Room<br>Side '+side.toUpperCase();draw()});draw();
+const st={w:'Today 7 pm',g:'2'};
+function chips(id,arr,k){const el=document.getElementById(id);el.innerHTML=arr.map(a=>`<button class="${st[k]==a?'on':''}">${a}</button>`).join('');el.onclick=e=>{if(e.target.tagName!='BUTTON')return;st[k]=e.target.textContent;chips(id,arr,k);go()}}
+chips('cw',['Today 4 pm','Today 7 pm','Today 9 pm','Tomorrow 1 pm','Tomorrow 8 pm','Weekend'],'w');chips('cg',['1','2','3','4','5','6+'],'g');
+function go(){const n=document.getElementById('nm').value.trim();document.getElementById('rs').href='https://wa.me/918799772212?text='+encodeURIComponent(`Hi The Record Room! I'd like a table for ${st.g} · ${st.w}.${n?' Name: '+n+'.':''}`)}
+document.getElementById('nm').oninput=go;go();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+</script>
+</body></html>
